@@ -85,16 +85,21 @@ export default function DocumentDetailPage() {
 
   const handleAskQuestion = async (e) => {
     e.preventDefault()
-    if (!question.trim()) return
+    const trimmed = question.trim()
+    if (!trimmed) return
+    if (trimmed.length > 500) {
+      setError('Question must be under 500 characters')
+      return
+    }
 
     setError('')
     setBusy('chat', true)
     try {
-      const res = await chatWithDocument(id, question)
-      setChatHistory((prev) => [...prev, { question, answer: res.data.answer }])
+      const res = await chatWithDocument(id, trimmed)
+      setChatHistory((prev) => [...prev, { question: trimmed, answer: res.data.answer }])
       setQuestion('')
-    } catch {
-      setError('The AI service is temporarily busy. Please try again in a moment.')
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to get an answer')
     } finally {
       setBusy('chat', false)
     }
