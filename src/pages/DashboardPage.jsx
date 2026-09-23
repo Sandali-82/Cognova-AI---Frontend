@@ -26,8 +26,20 @@ export default function DashboardPage() {
     e.preventDefault()
     setError('')
 
-    if (!title.trim() || !file) {
-      setError('Title and file are required')
+    if (!title.trim()) {
+      setError('Title is required')
+      return
+    }
+    if (!file) {
+      setError('Please select a PDF file')
+      return
+    }
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Only PDF files are supported')
+      return
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setError('File size must not exceed 10MB')
       return
     }
 
@@ -36,15 +48,16 @@ export default function DashboardPage() {
     formData.append('subject', subject)
     formData.append('file', file)
 
-    setUploading(true)
+  setUploading(true)
     try {
       await uploadDocument(formData)
       setTitle('')
       setSubject('')
       setFile(null)
       loadDocuments()
-    } catch {
-      setError('Upload failed. Please try again.')
+    } catch (err) {
+      const backendError = err.response?.data?.file?.[0] || err.response?.data?.title?.[0] || err.response?.data?.error
+      setError(backendError || 'Upload failed. Please try again.')
     } finally {
       setUploading(false)
     }
