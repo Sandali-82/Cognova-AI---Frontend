@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getDocuments, uploadDocument } from '../api/documentsApi'
 import { useAuth } from '../context/AuthContext'
+import toast from 'react-hot-toast'
 
 export default function DashboardPage() {
   const { logout } = useAuth()
@@ -23,45 +24,48 @@ export default function DashboardPage() {
   }, [])
 
   const handleUpload = async (e) => {
-    e.preventDefault()
-    setError('')
+  e.preventDefault()
+  setError('')
 
-    if (!title.trim()) {
-      setError('Title is required')
-      return
-    }
-    if (!file) {
-      setError('Please select a PDF file')
-      return
-    }
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      setError('Only PDF files are supported')
-      return
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      setError('File size must not exceed 10MB')
-      return
-    }
+  if (!title.trim()) {
+    setError('Title is required')
+    return
+  }
+  if (!file) {
+    setError('Please select a PDF file')
+    return
+  }
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    setError('Only PDF files are supported')
+    return
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    setError('File size must not exceed 10MB')
+    return
+  }
 
-    const formData = new FormData()
-    formData.append('title', title)
-    formData.append('subject', subject)
-    formData.append('file', file)
+  const formData = new FormData()
+  formData.append('title', title)
+  formData.append('subject', subject)
+  formData.append('file', file)
 
   setUploading(true)
-    try {
-      await uploadDocument(formData)
-      setTitle('')
-      setSubject('')
-      setFile(null)
-      loadDocuments()
-    } catch (err) {
-      const backendError = err.response?.data?.file?.[0] || err.response?.data?.title?.[0] || err.response?.data?.error
-      setError(backendError || 'Upload failed. Please try again.')
-    } finally {
-      setUploading(false)
-    }
+  try {
+    await uploadDocument(formData)
+    setTitle('')
+    setSubject('')
+    setFile(null)
+    loadDocuments()
+    toast.success('Document uploaded successfully!')
+  } catch (err) {
+    const backendError = err.response?.data?.file?.[0] || err.response?.data?.title?.[0] || err.response?.data?.error
+    const message = backendError || 'Upload failed. Please try again.'
+    setError(message)
+    toast.error(message)
+  } finally {
+    setUploading(false)
   }
+}
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">

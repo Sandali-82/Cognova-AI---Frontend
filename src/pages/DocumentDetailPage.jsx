@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import { generateSummary } from '../api/documentsApi'
 import { generateQuiz, submitQuiz } from '../api/quizzesApi'
 import { processDocumentForChat, chatWithDocument } from '../api/chatApi'
+import toast from 'react-hot-toast'
 
 export default function DocumentDetailPage() {
   const { id } = useParams()
@@ -35,8 +36,11 @@ export default function DocumentDetailPage() {
     try {
       const res = await generateSummary(id)
       setSummary(res.data.content)
+      toast.success('Summary generated!')
     } catch {
-      setError('Failed to generate summary')
+      const message = 'Failed to generate summary'
+      setError(message)
+      toast.error(message)
     } finally {
       setBusy('summary', false)
     }
@@ -50,8 +54,11 @@ export default function DocumentDetailPage() {
       const res = await generateQuiz(id)
       setQuiz(res.data)
       setAnswers({})
+      toast.success('Quiz generated!')
     } catch {
-      setError('Failed to generate quiz')
+      const message = 'Failed to generate quiz'
+      setError(message)
+      toast.error(message)
     } finally {
       setBusy('quiz', false)
     }
@@ -63,8 +70,11 @@ export default function DocumentDetailPage() {
     try {
       const res = await submitQuiz(quiz.id, answers)
       setQuizResult(res.data)
+      toast.success(`Score: ${res.data.score}/${res.data.total_questions}`)
     } catch {
-      setError('Failed to submit quiz')
+      const message = 'Failed to submit quiz'
+      setError(message)
+      toast.error(message)
     } finally {
       setBusy('submit', false)
     }
@@ -76,8 +86,11 @@ export default function DocumentDetailPage() {
     try {
       await processDocumentForChat(id)
       setChatReady(true)
+      toast.success('Chat is ready!')
     } catch {
-      setError('Failed to prepare document for chat')
+      const message = 'Failed to prepare document for chat'
+      setError(message)
+      toast.error(message)
     } finally {
       setBusy('chatPrep', false)
     }
