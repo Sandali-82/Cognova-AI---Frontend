@@ -5,6 +5,8 @@ import AuthCallbackPage from './pages/AuthCallbackPage'
 import DashboardPage from './pages/DashboardPage'
 import DocumentDetailPage from './pages/DocumentDetailPage'
 import AnalyticsPage from './pages/AnalyticsPage'
+import SignupPage from './pages/SignupPage'
+import { Toaster } from 'react-hot-toast'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -16,8 +18,10 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route
             path="/dashboard"
