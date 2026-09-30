@@ -1,2 +1,26 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Cognova AI dark theme tokens */
+@theme {
+  --color-app: #0b0f1a;          /* page background */
+  --color-card: #111827;         /* cards, panels */
+  --color-card-hover: #1a2233;   /* hover / nested surfaces */
+  --color-line: #263045;         /* borders, dividers */
+  --color-ink: #e5e7eb;          /* main text */
+  --color-ink-muted: #9ca3af;    /* secondary text */
+  --color-brand-from: #3b82f6;   /* logo blue */
+  --color-brand-to: #8b5cf6;     /* logo purple */
+  --color-success: #10b981;
+  --color-danger: #f43f5e;
+}
+
+body {
+  background-color: var(--color-app);
+  color: var(--color-ink);
+}
+
+@utility btn-brand {
+  background-image: linear-gradient(to right, var(--color-brand-from), var(--color-brand-to));
+  color: white;
+}
