@@ -5,7 +5,8 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  // Start as loading only if a token exists and needs to be validated
+  const [loading, setLoading] = useState(() => !!localStorage.getItem('authToken'))
 
   useEffect(() => {
     // Check if a token already exists and is valid
@@ -19,8 +20,6 @@ export function AuthProvider({ children }) {
           setUser(null)
         })
         .finally(() => setLoading(false))
-    } else {
-      setLoading(false)
     }
   }, [])
 
@@ -36,6 +35,7 @@ export function AuthProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext)
 }
