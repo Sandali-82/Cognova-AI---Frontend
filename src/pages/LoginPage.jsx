@@ -42,26 +42,26 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-app flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-from to-brand-to mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white">
-            Cognova <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">AI</span>
+          <h1 className="text-3xl font-bold text-ink">
+            Cognova <span className="bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent">AI</span>
           </h1>
-          <p className="text-gray-400 text-sm mt-2">Notes In. Knowledge Out.</p>
+          <p className="text-ink-muted text-sm mt-2">Notes In. Knowledge Out.</p>
         </div>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-xl">
-          <h2 className="text-xl font-semibold text-white mb-1">Welcome back</h2>
-          <p className="text-gray-400 text-sm mb-6">Sign in to continue to your study space</p>
+        <div className="bg-card border border-line rounded-2xl p-8 shadow-xl">
+          <h2 className="text-xl font-semibold text-ink mb-1">Welcome back</h2>
+          <p className="text-ink-muted text-sm mb-6">Sign in to continue to your study space</p>
 
-          {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+          {error && <p className="text-danger text-sm mb-4">{error}</p>}
 
           <form onSubmit={handleEmailLogin} className="space-y-3 mb-4">
             <input
@@ -69,28 +69,28 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-app border border-line text-ink placeholder:text-ink-muted rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-to"
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-app border border-line text-ink placeholder:text-ink-muted rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-to"
             />
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium px-4 py-3 rounded-xl hover:opacity-90 transition disabled:opacity-50"
+              className="w-full btn-brand font-medium px-4 py-3 rounded-xl hover:opacity-90 transition disabled:opacity-50"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-gray-800"></div>
-            <span className="text-gray-500 text-xs">OR</span>
-            <div className="flex-1 h-px bg-gray-800"></div>
+            <div className="flex-1 h-px bg-line"></div>
+            <span className="text-ink-muted text-xs">OR</span>
+            <div className="flex-1 h-px bg-line"></div>
           </div>
 
           <button
@@ -106,9 +106,9 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          <p className="text-gray-500 text-sm text-center mt-6">
+          <p className="text-ink-muted text-sm text-center mt-6">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-blue-400 hover:underline">
+            <Link to="/signup" className="text-brand-from hover:underline">
               Sign up
             </Link>
           </p>

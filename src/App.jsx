@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage'
 import DocumentDetailPage from './pages/DocumentDetailPage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import SignupPage from './pages/SignupPage'
+import VerifyEmailPage from './pages/VerifyEmailPage'
 import { Toaster } from 'react-hot-toast'
 
 function ProtectedRoute({ children }) {
@@ -18,11 +19,24 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+      <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: '#111827',
+              color: '#e5e7eb',
+              border: '1px solid #263045',
+            },
+            success: { iconTheme: { primary: '#10b981', secondary: '#111827' } },
+            error: { iconTheme: { primary: '#f43f5e', secondary: '#111827' } },
+          }}
+        />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
+          <Route path="/verify-email/:key" element={<VerifyEmailPage />} />
           <Route
             path="/dashboard"
             element={
