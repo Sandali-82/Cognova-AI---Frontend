@@ -20,12 +20,21 @@ export default function DocumentDetailPage() {
   const [chatHistory, setChatHistory] = useState([])
   const [loading, setLoading] = useState({})
   const [error, setError] = useState('')
+  const [loadError, setLoadError] = useState('')
 
-  useEffect(() => {
-    axiosClient.get(`/documents/`).then((res) => {
-      const doc = res.data.find((d) => d.id === Number(id))
-      setDocument(doc)
-    })
+    useEffect(() => {
+    axiosClient
+      .get(`/documents/`)
+      .then((res) => {
+        const doc = res.data.find((d) => d.id === Number(id))
+        if (doc) {
+          setDocument(doc)
+          setLoadError('')
+        } else {
+          setLoadError('Document not found')
+        }
+      })
+      .catch(() => setLoadError('Failed to load document'))
   }, [id])
 
   const setBusy = (key, value) => setLoading((prev) => ({ ...prev, [key]: value }))
@@ -116,6 +125,19 @@ export default function DocumentDetailPage() {
     } finally {
       setBusy('chat', false)
     }
+  }
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-app p-8">
+        <div className="max-w-3xl mx-auto space-y-4">
+          <Link to="/dashboard" className="text-brand-from text-sm hover:underline">
+            &larr; Back to Dashboard
+          </Link>
+          <p className="text-danger">{loadError}</p>
+        </div>
+      </div>
+    )
   }
 
   if (!document) return <div className="p-8">Loading...</div>
